@@ -8,7 +8,7 @@ class Settings(BaseSettings):
      """Flat class structure used for accessibility and local integration with other files"""
      model_config = SettingsConfigDict(
         env_file=".env",
-        env_file_encoding="utf-8")
+        env_file_encoding="utf-8") # encoding for production integration
      
      # LLM settings
      llm_backend: str = Field(default="ollama")
