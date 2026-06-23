@@ -1,25 +1,22 @@
-# Ruleset to define prompt injection structures and patterns
+# Defines prompt injection structures and patterns
+# Class structures for easy implementation 
 
 from dataclasses import dataclass
 from enum import Enum, IntEnum
 
-# Rule Category for  threat categories
 class RuleCategory(Enum):
-    # Categories  for differentiated attacks and processes
     OBFUSCATION = "obfuscation"
     JAILBREAK = "jailbreak"
     CONTEXT_HIJACK = "context_hijack"
     PROMPT_LEAKAGE = "prompt_leakage"
     TOOL_ABUSE = "tool_abuse"
 
-# Threat level weights with severity number assessment for risk scoring
 class ThreatLevel(IntEnum):
     LOW = 10
     MEDIUM = 25
     HIGH = 50
     CRITICAL = 75
 
-# Immutable container for individual detection rules
 @dataclass(frozen=True)
 class InjectionSignature:
     rule_id: str
@@ -30,7 +27,6 @@ class InjectionSignature:
     owasp_ref: str
     atlas_ref: str
 
-# Active injection detection signatures predefined
 SIGNATURE_REGISTRY: list[InjectionSignature] = [
     # Jailbreak Signatures
     InjectionSignature(
