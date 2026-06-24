@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass, field
 import signal
 from enum import Enum
-from firewall.rules import SIGNATURE_REGISTRY, InjectionSignature, ThreatLevel
+from src.firewall.rules import SIGNATURE_REGISTRY, InjectionSignature, ThreatLevel
 from config import settings
 
 class Verdict(Enum):
