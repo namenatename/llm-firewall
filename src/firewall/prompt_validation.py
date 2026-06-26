@@ -29,9 +29,7 @@ class CompiledRule:
 # E.g. external agent and product data could indicate an infrastructure attack vs. user-level input
 SOURCE_WEIGHTS: dict[str, float] = {
     "user": 1.0,
-    "tool_response": 1.5,
-    "product_data": 2.0,
-    "external_agent": 2.0
+    "url_retrieval": 2.0,
 }
 
 def _build_compiled_registry() -> list[CompiledRule]:
@@ -69,7 +67,7 @@ def scan_input(text: str, source="user") -> FilterResult:
     if len(text) > settings.max_input_length:
         return FilterResult(
                 verdict=Verdict.BLOCKED,
-                risk_score=ThreatLevel.LOW,
+                risk_score=ThreatLevel.SOFT,
                 matched_rules=["INPUT_EXCEEDS_LIMIT"],
                 flagged_categories=[],
                 input_preview=input_preview,
