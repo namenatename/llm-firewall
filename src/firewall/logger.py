@@ -1,7 +1,7 @@
-import logging, json, uuid
+import logging, json
 from datetime import datetime, timezone
 from pathlib import Path
-from firewall.prompt_validation import FilterResult
+from src.firewall.prompt_validation import FilterResult
 from config import settings
 
 logger = logging.getLogger("llm_firewall")
@@ -13,7 +13,6 @@ logger.addHandler(handler)
 
 def log_request(result: FilterResult) -> None:
     log_entry = {"timestamp": datetime.now(timezone.utc).isoformat(),
-                 "request_id": str(uuid.uuid4()),
                  "verdict": result.verdict.value,
                  "risk_score": result.risk_score,
                  "matched_rules": result.matched_rules, 
