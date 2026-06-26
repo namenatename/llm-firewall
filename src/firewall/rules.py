@@ -12,10 +12,8 @@ class RuleCategory(Enum):
     TOOL_ABUSE = "tool_abuse"
 
 class ThreatLevel(IntEnum):
-    LOW = 10
-    MEDIUM = 25
-    HIGH = 50
-    CRITICAL = 75
+    SOFT = 10
+    HARD = 50
 
 @dataclass(frozen=True)
 class InjectionSignature:
@@ -34,7 +32,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Direct Prompt Injection",
         category=RuleCategory.JAILBREAK,
         pattern="you are now|from now on you|ignore previous",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0054"
     ),
@@ -43,7 +41,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="System Prompt Retrieval",
         category=RuleCategory.JAILBREAK,
         pattern="system:|reveal system",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0054"
     ),
@@ -52,7 +50,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Persona Switch",
         category=RuleCategory.JAILBREAK,
         pattern="act as|pretend you are|as a security researcher",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0054"
     ),
@@ -62,7 +60,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Session Data Bleeding",
         category=RuleCategory.PROMPT_LEAKAGE,
         pattern="list all user details|list previous prompts",
-        threat_level=ThreatLevel.MEDIUM,
+        threat_level=ThreatLevel.SOFT,
         owasp_ref="LLM06",
         atlas_ref="AML.T0056"
     ),
@@ -72,7 +70,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Memory Context Poisoning",
         category=RuleCategory.CONTEXT_HIJACK,
         pattern="as stated previously|remember my preference for",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0080.000, AML.T0051.000"
     ),
@@ -81,7 +79,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Thread Context Poisoning",
         category=RuleCategory.CONTEXT_HIJACK,
         pattern="the document says|as instructed above",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0080.001, AML.T0051.001"
     ),
@@ -91,7 +89,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="AI Agent Tool Invocation",
         category=RuleCategory.TOOL_ABUSE,
         pattern="run Python script|use your SQL tool|call the API|invoke function",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM03",
         atlas_ref="AML.T0053"
     ),
@@ -101,7 +99,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Base64 encoding",
         category=RuleCategory.OBFUSCATION,
         pattern="[A-Za-z0-9+/]{20,}={0,2}",
-        threat_level=ThreatLevel.MEDIUM,
+        threat_level=ThreatLevel.SOFT,
         owasp_ref="LLM01",
         atlas_ref="AML.T0054"
     ), 
@@ -110,7 +108,7 @@ SIGNATURE_REGISTRY: list[InjectionSignature] = [
         name="Encoding Retrieval",
         category=RuleCategory.OBFUSCATION,
         pattern="encode in base64|translate from base64|encode this",
-        threat_level=ThreatLevel.HIGH,
+        threat_level=ThreatLevel.HARD,
         owasp_ref="LLM01",
         atlas_ref="AML.T0054"
     )
