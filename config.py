@@ -8,7 +8,7 @@ class Settings(BaseSettings):
      
      # LLM settings
      llm_backend: str = Field(default="ollama")
-     llm_model: str = Field(default="mistral")
+     llm_model: str = Field(default="mistral:latest")
      llm_base_url: str = Field(default="http://localhost:11434")
 
      # Firewall settings
