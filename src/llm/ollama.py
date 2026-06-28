@@ -1,4 +1,5 @@
 import httpx
+import json
 from config import settings
 
 class Ollama:
@@ -23,15 +24,22 @@ class Ollama:
         payload = {
             "model": self.model,
             "prompt": f"{instructions}\nUser: {user_input}",
-            "stream": False
+            "stream": True
         }
         try:
+            # Handles token stream for Ollama outputs within the CLI
+            full_response = ""
             async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    f"{self.base_url}/api/generate",
-                    json=payload,
-                    timeout=30.0
-                )
-                return response.json()["response"]
+                async with client.stream("POST", f"{self.base_url}/api/generate", json=payload, timeout=30.0) as response:
+                    async for line in response.aiter_lines():
+                        if line:
+                            chunk = json.loads(line)
+                            token = chunk.get("response", "")
+                            print(token, end="", flush=True)
+                            full_response += token
+                            if chunk.get("done"):
+                                break
+            print()
+            return full_response
         except httpx.ConnectError:
             raise RuntimeError(f"Model '{self.model}' not reached.")
