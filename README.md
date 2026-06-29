@@ -6,7 +6,7 @@ A Python-based prompt injection firewall that intercepts incoming LLM queries, s
 
 * Regex scanning of user inputs against a signature registry mapped to OWASP Top 10 LLM and MITRE ATLAS, with ReDoS protection via SIGALRM timeout
 
-* Source-weighted scoring system that adjusts threat severity based on input origin (user vs. URL retrieval), with SOFT/HARD threat level classification
+* Source-weighted scoring system that adjusts threat severity based on input origin, with SOFT/HARD threat level classification
 
 * Signature Registry featuring 9 active detection signatures across 5 threat categories: Jailbreak, Prompt Leakage, Context Hijack, Tool Abuse, and Obfuscation
 
@@ -94,7 +94,7 @@ python main.py
 
 ## Assistant Demo: One-Stop-Shop!
 
-The firewall's verdict response is tested through an online clothes store assistant with a preset 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs. The assistant will handle blocked verdict responses sent by the firewall with pre-determined responses written in `agentic_assistant.txt`.
+The firewall's verdict response is tested through an online clothes store assistant with a preset 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs.
 
 Attack scenarios protected by the signature regsitry include:
 
