@@ -6,6 +6,8 @@ class Ollama:
     def __init__(self):
         self.base_url = settings.llm_base_url
         self.model = settings.llm_model
+        with open("src/llm/agentic_assistant.txt", "r") as f:
+            self.instructions = f.read()
     
     async def status_check(self) -> bool:
         try:
@@ -19,11 +21,10 @@ class Ollama:
             raise RuntimeError("Model unreachable.")
 
     async def prompt(self, user_input: str) -> str:
-        with open("src/llm/agentic_assistant.txt", "r") as f:
-            instructions = f.read()
         payload = {
             "model": self.model,
-            "prompt": f"{instructions}\nUser: {user_input}",
+            "system": self.instructions,
+            "prompt": f"User: {user_input}",
             "stream": True
         }
         try:
