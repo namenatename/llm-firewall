@@ -38,7 +38,7 @@ A Python-based prompt injection firewall that intercepts incoming LLM queries, s
 git clone https://github.com/namenatename/llm-firewall.git
 cd llm-firewall
 
-# Create .venv
+# Create/activate .venv
 python -m venv .venv
 source .venv/bin/activate
 
@@ -54,27 +54,23 @@ python main.py
 
 ## Usage
 
-Start Ollama before running the firewall (if not already started from startup):
+Startup for Ollama before running the firewall (if not already active from startup):
 
 ```bash
-# Active .venv
+# Activate .venv
 source .venv/bin/activate
 
-# Start ollama
+# Start Ollama
 ollama serve
-```
 
-Then in a separate terminal:
-
-```bash
+# Start main.py for CLI user input and Ollama response
 python main.py
 ```
 
-The firewall runs as a terminal CLI. Each input is scanned before reaching the LLM. Type `exit` to end the session.
-
 ## Output
 
-Each request is logged to `logs/firewall.jsonl`:
+* Each request is logged to `logs/firewall.jsonl` by default
+* The structure of each log entry is as follows:
 
 ```json
 {"timestamp": "2026-06-27T18:00:00+00:00", 
@@ -98,14 +94,15 @@ Each request is logged to `logs/firewall.jsonl`:
 
 ## Assistant Demo: One-Stop-Shop!
 
-The firewall's verdict response is tested through a clothing boutique assistant with 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs. The assistant will handle verdict responses of "BLOCKED" by the firewall with pre-determined responses noted in `agentic_assistant.txt`.
+The firewall's verdict response is tested through an online clothes store assistant with a preset 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs. The assistant will handle blocked verdict responses sent by the firewall with pre-determined responses written in `agentic_assistant.txt`.
 
-Simulated attack scenarios include:
+Attack scenarios protected by the signature regsitry include:
+
 * Direct prompt injection attempting to override assistant instructions
 
 * Persona switching to bypass behavioral guidelines
 
-* Context hijacking via thread or memory poisoning
+* Context hijacking via memory poisoning
 
 * Tool invocation abuse targeting the agentic backend
 
@@ -113,9 +110,10 @@ Simulated attack scenarios include:
 
 ## Future Features
 
-* FastAPI HTTP backend for production deployment
+* FastAPI HTTP backend for production deployment (working on this right now!)
 
 * Additional signature coverage for indirect injection and data exfiltration
+    * Suggestions/PRs would be helpful! :)
 
 * OpenAI/Anthropic backend support via additional classes/base class structure
 
@@ -135,5 +133,6 @@ llm-firewall/
             ollama.py              # Async Ollama client with status check
     config.py                      # Settings
     main.py                        # CLI usage
+    api.py                         # FastAPI (soon!)
     requirements.txt
 ```
