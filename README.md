@@ -1,6 +1,6 @@
 # AaaS Defender - Agent-as-a-Service Defender
 
-A Python-based prompt injection firewall that intercepts incoming LLM queries, scans inputs against 9 detection signatures across 5 threat categories, and forwards sanitized requests to a locally hosted Ollama/Mistral backend, which takes the persona of an agentic e-commerce shopping assistant
+A Python-based prompt injection firewall that intercepts incoming LLM queries, scans inputs against a signature registry containing 5 threat categories, and forwards sanitized requests to a locally hosted Ollama/Mistral backend, which takes the persona of an agentic clothes store shopping assistant!
 
 ## Features
 
@@ -24,6 +24,22 @@ A Python-based prompt injection firewall that intercepts incoming LLM queries, s
 | Context Hijack | CH-001, CH-002 | HARD | LLM01 | AML.T0080, AML.T0051 | Identifies memory poisoning and thread injection patterns that manipulate the model's prior context to alter behavior |
 | Tool Abuse | TA-001 | HARD | LLM03 | AML.T0053 | Catches explicit tool invocation attempts targeting agentic backends — script execution, SQL tool calls, and API invocations |
 | Obfuscation | OB-001, OB-002 | SOFT / HARD | LLM01 | AML.T0054 | Detects Base64 encoded payloads and explicit encoding requests used to evade pattern-based detection |
+
+## Demoing The Firewall: One-Stop-Shop!
+
+The firewall's verdict response can be tested through an online clothes store assistant with a preset 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs
+
+Attack scenarios protected by the signature regsitry include:
+
+* Direct prompt injection attempting to override assistant instructions
+
+* Persona switching to bypass behavioral guidelines
+
+* Context hijacking via memory poisoning
+
+* Tool invocation abuse targeting the agentic backend
+
+* Base64 obfuscation to evade pattern detection
 
 ## Requirements
 
@@ -91,22 +107,6 @@ python main.py
 "source": "user"
 }
 ```
-
-## Assistant Demo: One-Stop-Shop!
-
-The firewall's verdict response is tested through an online clothes store assistant with a preset 10-item inventory found in `agentic_assistant.txt`. The assistant handles product questions, sizing, and recommendations while rejecting off-topic or adversarial inputs.
-
-Attack scenarios protected by the signature regsitry include:
-
-* Direct prompt injection attempting to override assistant instructions
-
-* Persona switching to bypass behavioral guidelines
-
-* Context hijacking via memory poisoning
-
-* Tool invocation abuse targeting the agentic backend
-
-* Base64 obfuscation to evade pattern detection
 
 ## Future Features
 
