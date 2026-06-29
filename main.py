@@ -22,20 +22,15 @@ async def main():
             log_request(result)
 
             print("\nAssistant: ", end="", flush=True)
-            await ollama.prompt(
-                f"[Firewall status: {result.verdict.value}]\nUser: {user_input}"
-            )
+
+            if result.verdict.value == "BLOCKED":
+                print("I'm sorry, but I cannot help you with that.")
+            elif result.verdict.value == "CLEAN":
+                await ollama.prompt((f"User: {user_input}"))
+    
             print()
 
         user_input = input("You: ").strip()
-
-    result = scan_input(user_input, source="user")
-    log_request(result)
-    print("\nAssistant: ", end="", flush=True)
-    await ollama.prompt(
-        f"[Firewall status: {result.verdict.value}]\nUser: {user_input}"
-    )
-    print()
 
 if __name__ == "__main__":
     asyncio.run(main())
