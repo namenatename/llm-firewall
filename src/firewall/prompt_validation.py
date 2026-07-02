@@ -2,7 +2,6 @@
 
 import re
 from dataclasses import dataclass, field
-import signal
 from enum import Enum
 from src.firewall.rules import SIGNATURE_REGISTRY, InjectionSignature, ThreatLevel
 from config import settings
@@ -44,21 +43,6 @@ def _build_compiled_registry() -> list[CompiledRule]:
 
 COMPILED_REGISTRY = _build_compiled_registry()
 
-def _handler(signum, frame):
-    raise TimeoutError
-
-# Accounts for latency and timeout errors
-def _safe_match(rule: CompiledRule, text: str) -> tuple[re.Match | None, bool]:
-    signal.signal(signal.SIGALRM, _handler)
-    signal.alarm(int(settings.regex_timeout_seconds))
-    try:
-        match = rule.pattern.search(text)
-        return match, False
-    except TimeoutError:
-        return None, True
-    finally:
-        signal.alarm(0)
-
 def scan_input(text: str, source="user") -> FilterResult:
     risk_score = 0
     matched_rules = []
@@ -73,13 +57,7 @@ def scan_input(text: str, source="user") -> FilterResult:
                 input_preview=input_preview,
                 source=source)
     for rule in COMPILED_REGISTRY:
-        match, timed_out = _safe_match(rule, text)
-        # Timed out case should be taken into consideration
-        # Regex will not normally timeout
-        if timed_out:
-                risk_score+=rule.signature.threat_level
-                matched_rules.append("REDOS_SUSPECTED")
-        if match:
+        if rule.pattern.search(text):
                 risk_score+=rule.signature.threat_level
                 matched_rules.append(rule.signature.rule_id)
                 flagged_categories.append(rule.signature.category.value)
