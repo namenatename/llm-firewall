@@ -1,4 +1,4 @@
-# AaaS Defender - Agent-as-a-Service Defender
+# LLM Firewall 
 
 A Python-based prompt injection firewall that intercepts incoming LLM queries, scans inputs against a signature registry containing 5 threat categories, and forwards sanitized requests to a locally hosted Ollama/Mistral backend, which takes the persona of an agentic clothes store shopping assistant!
 
