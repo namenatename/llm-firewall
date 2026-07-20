@@ -4,7 +4,7 @@ A Python-based prompt injection firewall that intercepts incoming LLM queries, s
 
 ## Features
 
-* Regex scanning of user inputs against a signature registry mapped to OWASP Top 10 LLM and MITRE ATLAS, with ReDoS protection via SIGALRM timeout
+* Regex scanning of user inputs against a signature registry mapped to OWASP Top 10 LLM and MITRE ATLAS
 
 * Source-weighted scoring system that adjusts threat severity based on input origin, with SOFT/HARD threat level classification
 
